@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Qwen 绘本工作台</title>
+    <link rel="stylesheet" href="/web/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <h1>Qwen 绘本工作台</h1>
+        <p>先预览分镜并人工审核，再生成最终图片，保证风格统一与人物一致性。</p>
+      </header>
+
+      <section class="panel">
+        <h2>1. 输入内容</h2>
+        <label for="storyText">故事文本</label>
+        <textarea id="storyText" rows="9" placeholder="请输入故事内容..."></textarea>
+
+        <label for="styleHint">风格补充（可选）</label>
+        <input
+          id="styleHint"
+          type="text"
+          value="小王子风格，暖色童话绘本，水彩质感，柔和留白"
+        />
+
+        <label for="referenceMode">参考图模式</label>
+        <select id="referenceMode">
+          <option value="text">文字生成3张人物参考图</option>
+          <option value="upload">上传参考图</option>
+        </select>
+
+        <div id="uploadBlock" class="subtle-block">
+          <input id="referenceFile" type="file" accept=".png,.jpg,.jpeg,.webp" />
+          <button id="uploadBtn" type="button">上传参考图</button>
+          <label for="uploadReferenceStrategy">上传图处理方式</label>
+          <select id="uploadReferenceStrategy">
+            <option value="use_original">直接使用上传图</option>
+            <option value="regenerate">根据上传图重绘统一风格参考图</option>
+          </select>
+          <p id="uploadHint"></p>
+        </div>
+
+        <button id="previewBtn" class="primary">生成分镜预览</button>
+      </section>
+
+      <div class="progress-wrap">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+      <pre id="status"></pre>
+
+      <section class="panel">
+        <h2>2. 分镜审核（可编辑）</h2>
+        <p class="hint">请先检查并调整分镜，确认无误后再开始生图。</p>
+        <div id="storyboards" class="storyboards"></div>
+      </section>
+
+      <section class="panel">
+        <h2>3. 选择人物参考图</h2>
+        <div id="referenceCandidates" class="reference-grid"></div>
+        <button id="regenerateRefsBtn" type="button">参考图不满意，重新生成</button>
+        <button id="approveBtn" class="primary" disabled>审核通过并开始生图</button>
+      </section>
+
+      <section class="panel">
+        <h2>4. 生成结果</h2>
+        <section class="actions">
+          <a id="downloadResultBtn" href="#" download>下载结果JSON</a>
+          <a id="downloadZipBtn" href="#" download>下载全部分镜ZIP</a>
+        </section>
+        <section id="gallery" class="gallery"></section>
+      </section>
+    </main>
+
+    <!-- Image Lightbox Modal -->
+    <div id="imageModal" class="modal">
+      <span class="close-modal" id="closeModal">&times;</span>
+      <img class="modal-content" id="modalImage">
+      <div id="modalCaption"></div>
+    </div>
+
+    <script src="/web/app.js"></script>
+  </body>
+</html>
